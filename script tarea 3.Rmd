@@ -1,0 +1,44 @@
+---
+title: "Script tarea 3"
+output: html_document
+date: "2025-12-02"
+---
+
+Ahora comenzaremos la ultima tarea del curso. En esta tarea, deberás realizar un análisis de complementos principales.
+Empezamos con el llamado de paquetes
+```{r}
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(ggplot2)
+library(dplyr)
+
+```
+
+Cargar la base de datos de tv show
+```{r}
+tv_series <- read_csv("C:/Users/macav/OneDrive - Universidad Católica de Chile/Documentos/Tarea-3-PCA/tvs.csv") |>
+  clean_names()
+```
+
+Ahora vamos a tomar solo las series que poseen genres_0_name igual a "Crime"
+```{r}
+tv_crime <- tv_series |>
+  filter(genres_0_name == "Crime") %>% 
+  filter(original_language == "en") %>% 
+  select(name, status, first_air_date, last_air_date, number_of_seasons, number_of_episodes, genres_0_name, genres_1_name, vote_average, vote_count, popularity) %>% 
+  filter(vote_count > 1000) %>%
+  filter(number_of_seasons >= 3) %>%
+  drop_na()
+
+tv_crime <- tv_crime [order(tv_crime$name), ]
+
+
+```
+
+
+
+
+
+
+

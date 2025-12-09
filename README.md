@@ -1,6 +1,6 @@
-# Tarea-3-PCA
+# Tarea-3-PCA 😎
 
-¡Hola! En este repositorio realizaré la tarea número 3 sobre Análisis de Componentes Principales. No sabía que realizar y luego de pensar bastante este último tiempo me dio un hiperfoco en ver cosas de crimen. Cuando pensé que hacer, recordé que mi serie de crime favorita es Criminal Minds, por lo que el tema de este trabajo es sobre esta serie.
+¡Hola! En este repositorio realizaré la tarea número 3 sobre Análisis de Componentes Principales. No sabía que realizar y luego de pensar bastante este último tiempo me dio un hiperfoco en ver cosas de crimen. Cuando pensé que hacer, recordé que mi serie de crime favorita es Criminal Minds, por lo que el tema de este trabajo es sobre esta serie. ✍🏼
 
 Ahora comenzaremos la ultima tarea del curso. En esta tarea, se deberá realizar un análisis de complementos principales. Para esto empezamos con el llamado de paquetes
 
@@ -21,7 +21,7 @@ library(ggrepel)
 
 ```
 
-Como no encontré una base de datos con los episodios de la serie Criminal Minds, tuve que extraer los datos desde Wikipedia ya que en este caso estaba la descripción de los episodios, a través web scraping. Primero extraje los episodios y ocupe todos los capítulos hasta la temporada 10 debido a dos situaciones: en Wikipedia la temporada 11 no tenía descripciones y además, en esta temporada se va mi personaje preferido Aaron Hotchner.
+Como no encontré una base de datos con los episodios de la serie Criminal Minds, tuve que extraer los datos desde Wikipedia ya que en este caso estaba la descripción de los episodios, a través web scraping. Primero extraje los episodios y ocupe todos los capítulos hasta la temporada 10 debido a dos situaciones: en Wikipedia la temporada 11 no tenía descripciones y además, en esta temporada se va mi personaje preferido Aaron Hotchner. 🕵🏼
 
 ```{r}
 library(rvest)
@@ -172,7 +172,7 @@ write_csv(criminal_minds_full, "criminal_minds_full.csv")
 
 ```
 
-# Creamos matriz final para PCA
+## Creamos matriz final para PCA
 
 ```{r}
 
@@ -293,7 +293,9 @@ fviz_pca_var(
 <img width="875" height="516" alt="fviz_pca_var" src="https://github.com/user-attachments/assets/06feccf5-ea46-417e-80bc-7e6847e1b3e2" />
 En este gráfico podemos observar las contribuciones de cada variable a las componentes principales. Las variables "im_db_rating" y "num_votes" tienen una alta contribución a la primera componente principal, mientras que las variables binarias relacionadas con la presencia de mujeres, hombres, adolescentes y niños tienen una mayor contribución a la segunda componente principal.
 
-#Conclusiones
+
+
+## Conclusiones
 
 Fue bastante entretendo realizar este análisis ya que dejó mostrar temas relevantes. Los episodios de *Criminal Minds* presentan patrones claros tanto en su evolución como en su contenido. Por un lado, las primeras temporadas tienden a agruparse debido a una mayor presencia de elementos violentos como: asesinatos, víctimas y cuerpos, mientras que las temporadas siguientes se distribuyen de manera más dispersa, reflejando cambios en la temática que presenta el estilo narrativo de la serie. Por otro lado, las variables de popularidad (rating y votos) forman un eje independiente y esto también puede entenderse al ser tal vez otra base de datos, indicando que la recepción del público no depende directamente del tipo de crimen mostrado, una idea que creía posible. Además, elementos como la presencia de mujeres, hombres o familias aparecen en muchos episodios y no separan claramente los grupos, mientras que temas más específicos como son los casos que involucran niños, adolescentes o violencia explícita, sí generan patrones definidos dentro del PCA. En conjunto, estos resultados permiten observar cómo la serie evoluciona y cómo ciertos temas narrativos se agrupan de manera consistente, ofreciendo una visión general de la estructura y cambios en sus episodios.
 

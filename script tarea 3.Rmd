@@ -13,6 +13,15 @@ library(janitor)
 library(ggplot2)
 library(dplyr)
 
+library(corrr)
+library(corrplot)
+library(ggcorrplot)
+library(FactoMineR)
+library(factoextra)
+library(naniar)
+library(zoo)
+library(ggrepel)
+
 ```
 
 Cargar la base de datos de tv show
@@ -34,11 +43,139 @@ tv_crime <- tv_series |>
 tv_crime <- tv_crime [order(tv_crime$name), ]
 
 
+
+
 ```
 
+Haremos un nuevo intento y probaremos si funciona ESTE FUNCIONA
 
+```{r}
+library(rvest)
+library(dplyr)
+library(stringr)
+library(purrr)
+library(tibble)
 
+url <- "https://es.wikipedia.org/wiki/Anexo:Episodios_de_Mentes_criminales"
+page <- read_html(url)
 
+# 1) Extraer todas las tablas wikitable
+tables <- page %>% html_nodes("table.wikitable")
 
+# Función para procesar cada tabla
+procesar_tabla <- function(tbl) {
+  df <- tbl %>% html_table(fill = TRUE)
 
+  # Normalizar columnas
+  colnames(df) <- colnames(df) %>%
+    str_replace_all("\\s+", "_") %>%
+    str_replace_all("[^A-Za-z0-9_]", "") %>%
+    tolower()
+
+  posibles <- c("n_en_serie","n_en_temp","titulo",
+                "dirigido_por","escrito_por",
+                "fecha_de_emision_original","emision_original")
+
+  cp <- intersect(posibles, colnames(df))
+  if (length(cp) < 3) return(NULL)
+
+  df <- df %>% select(any_of(cp))
+
+  # Convertir todo a texto
+  df <- df %>% mutate(across(everything(), as.character))
+
+  # Unificar nombre fecha
+  if ("fecha_de_emision_original" %in% colnames(df)) {
+    df <- df %>% rename(fecha_emision = fecha_de_emision_original)
+  } else if ("emision_original" %in% colnames(df)) {
+    df <- df %>% rename(fecha_emision = emision_original)
+  } else {
+    df <- df %>% mutate(fecha_emision = NA_character_)
+  }
+
+  return(df)
+}
+
+episodios_lista <- tables %>% map(procesar_tabla) %>% discard(is.null)
+
+# Unir episodios y asignar temporadas
+episodes_all <- bind_rows(episodios_lista, .id = "temporada") %>%
+  mutate(temporada = as.integer(temporada))
+
+# Filtrar temporadas 1 a 15
+criminalminds_episodes <- episodes_all %>% 
+  filter(temporada <= 15) %>% 
+  rowid_to_column("id")
+
+criminalminds_episodes
+
+criminalminds_episodes <- criminalminds_episodes %>%
+  filter(id %% 2 != 0) %>%     # Mantener solo los ID impares
+  mutate(id = row_number()) %>%
+  filter(id < 234) %>%   
+  select(-fecha_emision)
+  
+
+```
+
+este es el win
+
+```{r}
+library(rvest)
+library(dplyr)
+library(stringr)
+library(tibble)
+
+url <- "https://es.wikipedia.org/wiki/Anexo:Episodios_de_Mentes_criminales"
+page <- read_html(url)
+
+# 1) Extraer sinopsis (Wikipedia suele ponerlas en celdas con colspan)
+desc_nodes <- page %>% html_nodes("td[colspan]")
+
+# 2) Extraer texto
+descs <- desc_nodes %>% html_text(trim = TRUE)
+
+# 3) Filtrar textos cortos que no son sinopsis
+descs <- descs[nchar(descs) > 50]
+
+# 4) Crear tabla limpia
+criminalminds_descriptions <- tibble(
+  id = seq_along(descs),
+  descripcion = descs
+)
+
+criminalminds_descriptions
+
+criminalminds_descriptions <- criminalminds_descriptions%>%
+  filter(id < 234) %>%      # eliminar id 1 al 26
+  mutate(id = row_number())  
+
+```
+
+UNIR BASES DE DATOS
+
+```{r}
+criminal_minds <- left_join(criminalminds_episodes, criminalminds_descriptions, by = "id")
+
+```
+
+Hay otra bases de datos para usar
+```{r}
+imdb_criminalminds <- read_xlsx("C:/Users/macav/OneDrive - Universidad Católica de Chile/Documentos/Tarea-3-PCA/criminal_minds_clean.xlsx") |>
+  clean_names()
+
+imdb_criminalminds <- imdb_criminalminds %>% 
+  select(position, title, year, im_db_rating, num_votes)
+
+imdb_criminalminds <- imdb_criminalminds %>%
+  filter(position < 234) %>% 
+  rename(id = position)
+
+```
+volvemos a unir bases de datos
+
+```{r}
+criminal_minds_full <- left_join(criminal_minds, imdb_criminalminds, by = "id")
+
+```
 

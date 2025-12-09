@@ -236,9 +236,10 @@ fviz_pca_biplot(
   arrowsize = 0.7
 )
 
-<img width="750" height="516" alt="fviz_pca_biplot" src="https://github.com/user-attachments/assets/012467d7-5de7-4029-a2ea-d339f13ed326" />
+
 
 ```
+<img width="750" height="516" alt="fviz_pca_biplot" src="https://github.com/user-attachments/assets/012467d7-5de7-4029-a2ea-d339f13ed326" />
 
 Podemos observar que las variables "im_db_rating" y "num_votes" están muy correlacionadas, lo que tiene sentido ya que a mayor número de votos, mayor es la calificación promedio. Además, las variables binarias relacionadas con la presencia de mujeres, hombres, adolescentes y niños en los episodios también muestran cierta correlación entre sí.
 
@@ -254,9 +255,10 @@ fviz_pca_ind(
   legend.title = "Temporada"
 )
 
-<img width="875" height="516" alt="fviz_pca_ind" src="https://github.com/user-attachments/assets/c5cf0ad6-6c0f-44af-b944-7ac0a322843b" />
+
 
 ```
+<img width="875" height="516" alt="fviz_pca_ind" src="https://github.com/user-attachments/assets/c5cf0ad6-6c0f-44af-b944-7ac0a322843b" />
 
 En este gráfico podemos observar cómo se agrupan los episodios según las temporadas. Parece que hay cierta diferenciación entre las temporadas, lo que podría indicar que los episodios de diferentes temporadas tienen características distintas en términos de las variables analizadas.
 
@@ -271,9 +273,10 @@ fviz_pca_ind(
   legend.title = "Mujer"
 )
 
-<img width="875" height="516" alt="fviz_pca_ind2" src="https://github.com/user-attachments/assets/0c3af9bd-b105-4cb3-a098-1ec785030b88" />
+
 
 ```
+<img width="875" height="516" alt="fviz_pca_ind2" src="https://github.com/user-attachments/assets/0c3af9bd-b105-4cb3-a098-1ec785030b88" />
 En este gráfico podemos observar cómo se agrupan los episodios según la presencia de mujeres en la descripción. Parece que los episodios con presencia de mujeres tienden a agruparse en ciertas áreas del espacio PCA, lo que podría indicar que estos episodios tienen características distintas en términos de las variables analizadas.
 
 ```{r}
@@ -284,9 +287,10 @@ fviz_pca_var(
   repel = TRUE
 )
 
-<img width="875" height="516" alt="fviz_pca_var" src="https://github.com/user-attachments/assets/06feccf5-ea46-417e-80bc-7e6847e1b3e2" />
+
 
 ```
+<img width="875" height="516" alt="fviz_pca_var" src="https://github.com/user-attachments/assets/06feccf5-ea46-417e-80bc-7e6847e1b3e2" />
 En este gráfico podemos observar las contribuciones de cada variable a las componentes principales. Las variables "im_db_rating" y "num_votes" tienen una alta contribución a la primera componente principal, mientras que las variables binarias relacionadas con la presencia de mujeres, hombres, adolescentes y niños tienen una mayor contribución a la segunda componente principal.
 
 #Conclusiones
